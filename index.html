@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>은혜님 워크시트 v3 — 5월 28일</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Dodum&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf8f3;--ink:#1a1208;--warm:#c8873a;--warm-l:#f0dfc0;--warm-p:#fdf5e8;--green:#4a7c5f;--green-l:#d4ead9;--rose:#c0544a;--rose-l:#fde8e6;--blue:#3a5f8a;--blue-l:#d4e4f5;--stamp:#8b5e3c;--line:#d4c9b0;--shadow:rgba(26,18,8,0.06);--mid:#f2ede3;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:'Gowun Dodum',sans-serif;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 31px,var(--line) 31px,var(--line) 32px);opacity:0.2;pointer-events:none;z-index:0;}
+.page{max-width:820px;margin:0 auto;padding:40px 24px 80px;position:relative;z-index:1;}
+
+/* Header */
+.ws-header{text-align:center;padding:28px 0 22px;border-bottom:2px solid var(--ink);margin-bottom:26px;}
+.ws-badge{display:inline-block;background:var(--warm);color:white;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;padding:3px 12px;margin-bottom:10px;}
+.ws-header h1{font-family:'Nanum Myeongjo',serif;font-size:clamp(20px,4vw,32px);font-weight:800;line-height:1.3;}
+.ws-header h1 span{color:var(--warm);}
+.ws-meta{display:flex;justify-content:center;gap:18px;margin-top:10px;flex-wrap:wrap;}
+.ws-meta-item{font-size:11px;color:var(--stamp);text-align:center;}
+.ws-meta-item strong{font-family:'Space Mono',monospace;font-size:9px;display:block;color:var(--ink);margin-bottom:2px;letter-spacing:1px;}
+
+/* Part header */
+.part-header{display:flex;align-items:center;gap:12px;margin:26px 0 12px;padding-bottom:10px;border-bottom:1.5px solid var(--ink);}
+.part-num{font-family:'Nanum Myeongjo',serif;font-size:36px;font-weight:800;color:var(--warm);line-height:1;}
+.part-tag{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--stamp);}
+.part-title{font-family:'Nanum Myeongjo',serif;font-size:17px;font-weight:700;margin-top:2px;}
+
+/* Card */
+.card{background:white;border:1.5px solid var(--line);padding:18px 20px;margin-bottom:13px;box-shadow:2px 2px 0 var(--shadow);}
+.card-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--warm);margin-bottom:12px;font-weight:700;}
+
+/* Memory badge */
+.memory-badge{display:inline-flex;align-items:center;gap:6px;background:var(--rose-l);border:1.5px solid var(--rose);color:var(--rose);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;padding:4px 10px;margin-bottom:12px;}
+
+/* Scene dialogue for memory test */
+.scene-note{font-size:12px;color:var(--stamp);background:var(--mid);border-left:3px solid var(--warm);padding:8px 12px;margin-bottom:12px;line-height:1.7;}
+.dict-scene{display:flex;flex-direction:column;gap:10px;}
+.dict-line{display:grid;grid-template-columns:60px 1fr;gap:8px;font-size:13px;align-items:start;}
+.dict-sp{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--stamp);padding-top:16px;}
+.dict-text{line-height:2.6;padding-bottom:2px;border-bottom:1px dotted var(--line);}
+.blank{display:inline-block;border-bottom:1.5px solid var(--ink);vertical-align:bottom;margin:0 2px;}
+.blank.s{min-width:48px;height:20px;}
+.blank.m{min-width:78px;height:20px;}
+.blank.l{min-width:120px;height:20px;}
+.blank.xl{min-width:170px;height:20px;}
+
+/* Key expressions — FIXED COLUMN WIDTHS */
+.expr-table{width:100%;border-collapse:collapse;table-layout:fixed;}
+.expr-table col.c-en{width:48%;}
+.expr-table col.c-ko{width:37%;}
+.expr-table col.c-tag{width:15%;}
+.expr-table th{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;padding:7px 10px;border-bottom:1.5px solid var(--ink);text-align:left;color:var(--stamp);background:var(--mid);}
+.expr-table td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;font-size:13px;line-height:1.6;word-break:break-word;}
+.expr-table tr:last-child td{border-bottom:none;}
+.expr-table .en{font-family:'Space Mono',monospace;font-size:11px;color:var(--blue);background:var(--blue-l);padding:3px 7px;display:inline-block;line-height:1.5;}
+.expr-table .ko{color:var(--stamp);}
+.expr-table .tag{font-family:'Space Mono',monospace;font-size:9px;color:var(--warm);background:var(--warm-p);padding:2px 5px;display:inline-block;line-height:1.4;}
+
+/* Grammar */
+.gram-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+@media(max-width:520px){.gram-wrap{grid-template-columns:1fr;}}
+.gram-box{padding:12px 14px;font-size:13px;}
+.gram-box.past{background:white;border:1.5px solid var(--line);}
+.gram-box.pf{background:var(--blue-l);border:1.5px solid var(--blue);}
+.gram-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;margin-bottom:8px;}
+.gram-box.past .gram-label{color:var(--stamp);}
+.gram-box.pf .gram-label{color:var(--blue);}
+.gram-ex{font-family:'Space Mono',monospace;font-size:11px;margin-bottom:4px;line-height:1.7;}
+.gram-box.pf .gram-ex{color:var(--blue);}
+.gram-note{font-size:11px;color:var(--stamp);line-height:1.6;}
+.gram-q{background:var(--mid);border:1.5px solid var(--line);padding:13px 16px;margin-bottom:9px;}
+.gram-q-num{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:var(--warm);margin-bottom:5px;}
+.gram-q-ko{font-size:12px;color:var(--stamp);margin-bottom:6px;line-height:1.6;}
+.gram-q-frame{font-size:14px;line-height:2.6;margin-bottom:2px;}
+.gram-q-hint{font-size:11px;color:var(--line);font-style:italic;}
+
+/* PART 2 — Speaking with fluency helpers */
+.speaking-q{border:1.5px solid var(--line);margin-bottom:12px;overflow:hidden;}
+.sq-head{background:var(--warm-p);border-bottom:1.5px solid var(--warm-l);padding:10px 14px;display:flex;align-items:center;gap:10px;}
+.sq-num{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:white;background:var(--warm);padding:2px 9px;}
+.sq-q{font-size:14px;font-weight:700;}
+.sq-frame-wrap{padding:10px 14px;border-bottom:1px solid var(--line);background:var(--blue-l);}
+.sq-frame-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--blue);margin-bottom:5px;}
+.sq-frame{font-family:'Space Mono',monospace;font-size:11px;color:var(--blue);line-height:1.9;}
+.sq-fluency{padding:10px 14px;border-bottom:1px solid var(--line);background:var(--green-l);}
+.sq-fluency-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--green);margin-bottom:6px;}
+.fluency-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:520px){.fluency-grid{grid-template-columns:1fr;}}
+.fluency-col{}
+.fluency-col-title{font-size:10px;font-family:'Space Mono',monospace;color:var(--green);margin-bottom:3px;letter-spacing:0.5px;}
+.fluency-chips{display:flex;flex-wrap:wrap;gap:4px;}
+.chip{font-family:'Space Mono',monospace;font-size:10px;background:white;border:1px solid var(--green);color:var(--green);padding:2px 7px;}
+.sq-model{padding:10px 14px;border-bottom:1px solid var(--line);background:rgba(58,95,138,0.04);}
+.sq-model-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--blue);margin-bottom:5px;}
+.sq-model-text{font-size:12px;line-height:1.8;color:var(--stamp);font-style:italic;}
+.sq-model-text strong{font-style:normal;color:var(--blue);font-family:'Space Mono',monospace;font-size:11px;}
+.sq-answer{padding:10px 14px;}
+.sq-answer-label{font-size:11px;color:var(--stamp);margin-bottom:6px;}
+.answer-line{border-bottom:1.5px solid var(--line);height:26px;margin-bottom:7px;}
+
+/* PART 3 — Substantial writing */
+.write-level{margin-bottom:16px;padding-bottom:16px;border-bottom:1.5px dashed var(--line);}
+.write-level:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.write-level-badge{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;padding:2px 8px;margin-bottom:8px;}
+.write-level-badge.lv1{background:var(--green-l);color:var(--green);}
+.write-level-badge.lv2{background:var(--blue-l);color:var(--blue);}
+.write-level-badge.lv3{background:var(--warm-l);color:var(--stamp);}
+.write-prompt{font-size:13px;color:var(--stamp);margin-bottom:6px;line-height:1.7;}
+.write-prompt .target{font-family:'Space Mono',monospace;font-size:10px;background:var(--warm-l);padding:1px 6px;color:var(--ink);}
+.write-frame{font-size:14px;line-height:2.8;margin-bottom:4px;}
+.wblank{display:inline-block;border-bottom:1.5px solid var(--ink);vertical-align:bottom;margin:0 3px;}
+.wblank.m{min-width:100px;height:22px;}
+.wblank.l{min-width:150px;height:22px;}
+.wblank.xl{min-width:200px;height:22px;}
+.write-line{border-bottom:1.5px solid var(--line);height:28px;margin-bottom:8px;}
+.write-hint{font-size:11px;color:var(--line);font-style:italic;margin-bottom:10px;}
+.story-box{background:var(--mid);border:1.5px solid var(--line);padding:14px 16px;margin-top:6px;}
+.story-box-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--warm);margin-bottom:8px;}
+.story-situation{font-size:12px;color:var(--stamp);background:var(--warm-p);border-left:3px solid var(--warm);padding:7px 11px;margin-bottom:10px;line-height:1.7;}
+.trans-item{margin-bottom:12px;}
+.trans-ko{font-size:12px;color:var(--stamp);margin-bottom:6px;line-height:1.6;background:var(--mid);padding:5px 10px;border-left:3px solid var(--line);}
+
+/* PART 4 — Daily homework */
+.hw-calendar{border:1.5px solid var(--line);overflow:hidden;margin-bottom:12px;}
+.hw-cal-header{background:var(--ink);color:white;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;padding:9px 14px;display:flex;justify-content:space-between;align-items:center;}
+.hw-cal-header span{font-family:'Gowun Dodum',sans-serif;font-size:11px;font-weight:normal;color:rgba(255,255,255,0.6);letter-spacing:0;}
+.hw-day-row{display:grid;grid-template-columns:78px 1fr 44px;border-bottom:1px solid var(--line);}
+.hw-day-row:last-child{border-bottom:none;}
+.hw-date-cell{background:var(--warm-p);border-right:1px solid var(--line);padding:11px 12px;font-family:'Space Mono',monospace;font-size:10px;color:var(--warm);font-weight:700;display:flex;flex-direction:column;justify-content:flex-start;gap:2px;}
+.hw-date-cell .day-sub{font-family:'Gowun Dodum',sans-serif;font-size:10px;color:var(--stamp);font-weight:normal;}
+.hw-date-cell .time-est{font-family:'Gowun Dodum',sans-serif;font-size:10px;color:var(--line);font-weight:normal;margin-top:3px;}
+.hw-content-cell{padding:11px 13px;}
+.hw-core{font-size:12px;font-weight:700;margin-bottom:4px;line-height:1.6;}
+.hw-core::before{content:'🔁 ';font-size:11px;}
+.hw-new{font-size:12px;margin-bottom:3px;line-height:1.6;}
+.hw-new::before{content:'★ ';color:var(--warm);font-size:11px;}
+.hw-sub{font-size:11px;color:var(--stamp);line-height:1.5;margin-top:3px;}
+.hw-check-cell{border-left:1px solid var(--line);display:flex;align-items:center;justify-content:center;}
+.check-box{width:20px;height:20px;border:1.5px solid var(--line);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;justify-content:center;font-size:13px;color:transparent;}
+.check-box.done{background:var(--green);border-color:var(--green);color:white;}
+.rep-track{display:flex;align-items:center;gap:5px;margin-top:5px;flex-wrap:wrap;}
+.rep-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--stamp);letter-spacing:0.5px;}
+.rep-box{width:18px;height:18px;border:1.5px solid var(--warm-l);background:white;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:all 0.12s;flex-shrink:0;}
+.rep-box.done{background:var(--warm);border-color:var(--warm);color:white;}
+.rep-box:hover:not(.done){background:var(--warm-p);border-color:var(--warm);}
+.hw-legend{display:flex;gap:14px;font-size:11px;color:var(--stamp);margin-bottom:10px;flex-wrap:wrap;}
+.hw-legend-item{display:flex;align-items:center;gap:4px;}
+
+/* PART 5 — Dictation (kept identical) */
+.dictation-card{background:white;border:1.5px solid var(--line);padding:18px 20px;margin-bottom:13px;box-shadow:2px 2px 0 var(--shadow);}
+.dict-note{font-size:12px;color:var(--stamp);background:var(--warm-p);border-left:3px solid var(--warm);padding:8px 12px;margin-bottom:13px;line-height:1.7;}
+
+/* PART 6 — Self check */
+.self-check{border:1.5px solid var(--line);overflow:hidden;margin-bottom:12px;}
+.sc-header{background:var(--ink);color:white;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;padding:9px 14px;}
+.sc-row{display:grid;grid-template-columns:1fr 80px;border-bottom:1px solid var(--line);font-size:13px;}
+.sc-row:last-child{border-bottom:none;}
+.sc-content{padding:11px 14px;line-height:1.7;}
+.sc-content .item-title{font-weight:700;font-size:13px;margin-bottom:3px;}
+.sc-content .item-sub{font-size:11px;color:var(--stamp);}
+.sc-rate{border-left:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;}
+.rate-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--stamp);text-align:center;}
+.rate-stars{display:flex;gap:1px;}
+.star-btn{font-size:14px;cursor:pointer;opacity:0.25;transition:opacity 0.1s;background:none;border:none;padding:0;line-height:1;}
+.star-btn.on{opacity:1;}
+.reflect-box{background:var(--green-l);border:1.5px solid var(--green);padding:14px 18px;margin-top:6px;}
+.reflect-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--green);margin-bottom:10px;font-weight:700;}
+.reflect-q{font-size:13px;margin-bottom:6px;font-weight:600;}
+.reflect-line{border-bottom:1.5px solid var(--green);height:26px;margin-bottom:11px;}
+.takeaway{background:var(--warm-p);border:1.5px solid var(--warm-l);padding:14px 18px;margin-top:6px;}
+.tk-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--warm);margin-bottom:10px;font-weight:700;}
+.tk-item{display:grid;grid-template-columns:auto 1fr;gap:8px;margin-bottom:9px;align-items:center;}
+.tk-item:last-child{margin-bottom:0;}
+.tk-num{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:white;background:var(--warm);padding:2px 8px;}
+.tk-input{border:none;border-bottom:1.5px solid var(--warm-l);background:transparent;font-family:'Gowun Dodum',sans-serif;font-size:13px;padding:2px 4px;outline:none;width:100%;}
+@media(max-width:500px){.dict-line,.hw-day-row{grid-template-columns:46px 1fr 40px;}.hw-date-cell{padding:9px 8px;}.fluency-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header class="ws-header">
+  <div class="ws-badge">STUDENT WORKSHEET v3 · 2026.05.28</div>
+  <h1>오늘의 영어 노트<br><span>AEF 252 — 지각, 질투, 그리고 고백</span></h1>
+  <div class="ws-meta">
+    <div class="ws-meta-item"><strong>NAME</strong>은혜님 ☕</div>
+    <div class="ws-meta-item"><strong>SCENE</strong>AEF 252</div>
+    <div class="ws-meta-item"><strong>PREVIEW</strong>AEF 261</div>
+    <div class="ws-meta-item"><strong>SITE</strong><a href="https://www.listeninenglish.com/aef-252.php" target="_blank" style="color:var(--blue);text-decoration:none;">listeninenglish.com/aef-252.php</a></div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════ PART 1 -->
+<div class="part-header">
+  <div class="part-num">1</div>
+  <div class="part-meta">
+    <div class="part-tag">MEMORY TEST · 외워서 채우기</div>
+    <div class="part-title">AEF 252 — 스크립트 보지 않고 빈칸 채우기</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="memory-badge">🔒 스크립트 보지 말기 — 공부해 온 내용 그대로 써봐요!</div>
+  <div class="scene-note">
+    오디오 없이, 스크립트 없이! 지금까지 공부해온 내용으로만 채워봐요.<br>
+    기억이 안 나면 <strong>❓</strong> 표시 후 계속 진행 → 수업 끝나고 확인하기
+  </div>
+  <div class="dict-scene">
+    <div class="dict-line">
+      <span class="dict-sp">Rob</span>
+      <span class="dict-text">Jenny! I'm <span class="blank m"></span>. There was a <span class="blank m"></span> on the <span class="blank l"></span>.</span>
+    </div>
+    <div class="dict-line">
+      <span class="dict-sp">Jenny</span>
+      <span class="dict-text">We <span class="blank m"></span> it the <span class="blank m"></span> here.</span>
+    </div>
+    <div class="dict-line">
+      <span class="dict-sp">Rob</span>
+      <span class="dict-text">The train <span class="blank m"></span> for about <span class="blank s"></span> minutes. I tried to <span class="blank m"></span>, but there was no <span class="blank m"></span>.</span>
+    </div>
+    <div class="dict-line">
+      <span class="dict-sp">Jenny</span>
+      <span class="dict-text">I've <span class="blank m"></span> here <span class="blank s"></span> 7:45.</span>
+    </div>
+    <div class="dict-line">
+      <span class="dict-sp">Rob</span>
+      <span class="dict-text">I <span class="blank m"></span>. I <span class="blank s"></span> from the <span class="blank m"></span> station. I'm so <span class="blank m"></span>.</span>
+    </div>
+    <div class="dict-line">
+      <span class="dict-sp">Jenny</span>
+      <span class="dict-text">You <span class="blank m"></span> always <span class="blank m"></span>. It <span class="blank m"></span> funny, isn't <span class="blank s"></span>.</span>
+    </div>
+    <div class="dict-line">
+      <span class="dict-sp">Jenny</span>
+      <span class="dict-text">But the <span class="blank m"></span> is still <span class="blank m"></span>. Maybe you have time to <span class="blank m"></span> up with Holly.</span>
+    </div>
+    <div class="dict-line">
+      <span class="dict-sp">Rob</span>
+      <span class="dict-text"><span class="blank m"></span> to me. Jenny! Holly is just a <span class="blank l"></span>.</span>
+    </div>
+    <div class="dict-line">
+      <span class="dict-sp">Rob</span>
+      <span class="dict-text">Look, I know I'm always <span class="blank m"></span>. But that's <span class="blank s"></span> the <span class="blank m"></span>.</span>
+    </div>
+    <div class="dict-line">
+      <span class="dict-sp">Rob</span>
+      <span class="dict-text">I'm not <span class="blank m"></span> in Holly. I came to New York <span class="blank m"></span> of you. The <span class="blank m"></span> person I'm <span class="blank m"></span> in is <span class="blank s"></span>.</span>
+    </div>
+  </div>
+  <div style="margin-top:12px;padding:8px 12px;background:var(--green-l);border-left:3px solid var(--green);font-size:11px;color:var(--green);font-family:'Space Mono',monospace;letter-spacing:0.5px;">
+    ✅ 채운 후 정답 확인 — 몇 개 맞았는지 체크해봐요 (___ / 30)
+  </div>
+</div>
+
+<!-- Key Expressions — fixed columns -->
+<div class="card">
+  <div class="card-label">⭐ 핵심 표현 8개 — 보고 외우기</div>
+  <table class="expr-table">
+    <colgroup>
+      <col class="c-en">
+      <col class="c-ko">
+      <col class="c-tag">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>영어 표현</th>
+        <th>뜻 &amp; 뉘앙스</th>
+        <th>포인트</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="en">There was a problem on the underground.</span></td>
+        <td class="ko">지하철에 문제가 있었어.</td>
+        <td><span class="tag">영국=subway</span></td>
+      </tr>
+      <tr>
+        <td><span class="en">I've been here since 7:45.</span></td>
+        <td class="ko">7시 45분부터 여기 있었어.</td>
+        <td><span class="tag">since+시점</span></td>
+      </tr>
+      <tr>
+        <td><span class="en">I ran from the station.</span></td>
+        <td class="ko">역에서 뛰어왔어.</td>
+        <td><span class="tag">ran=불규칙</span></td>
+      </tr>
+      <tr>
+        <td><span class="en">The night is still young.</span></td>
+        <td class="ko">아직 밤이 이르잖아! (이제 시작이야)</td>
+        <td><span class="tag">관용표현</span></td>
+      </tr>
+      <tr>
+        <td><span class="en">I didn't mean to say that.</span></td>
+        <td class="ko">그럴 의도가 아니었어. (말실수)</td>
+        <td><span class="tag">to+동사원형</span></td>
+      </tr>
+      <tr>
+        <td><span class="en">Forget it!</span></td>
+        <td class="ko">됐어, 신경 꺼! (잊어버려≠됐어)</td>
+        <td><span class="tag">감정표현</span></td>
+      </tr>
+      <tr>
+        <td><span class="en">That's not the point.</span></td>
+        <td class="ko">그게 요점이 아니야.</td>
+        <td><span class="tag">the 필수!</span></td>
+      </tr>
+      <tr>
+        <td><span class="en">The only person I'm interested in is you.</span></td>
+        <td class="ko">내가 관심 있는 사람은 오직 너야.</td>
+        <td><span class="tag">강조구조</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Grammar: since vs for — 5 questions -->
+<div class="card">
+  <div class="card-label">📐 문법 포인트 — since vs for 실전 연습</div>
+  <div class="gram-wrap">
+    <div class="gram-box past">
+      <div class="gram-label">SINCE — 특정 시점부터</div>
+      <div class="gram-ex">since 7:45 · since Monday<br>since I was young</div>
+      <div class="gram-note">"언제부터?"에 대한 답<br>시각 / 요일 / 날짜 / 사건</div>
+    </div>
+    <div class="gram-box pf">
+      <div class="gram-label">FOR — 기간 동안</div>
+      <div class="gram-ex">for an hour · for 3 months<br>for a long time</div>
+      <div class="gram-note">"얼마 동안?"에 대한 답<br>숫자 + 시간 단위</div>
+    </div>
+  </div>
+
+  <div class="card-label" style="margin-bottom:10px;">✏️ 빈칸에 since 또는 for를 써봐요 — 5문제</div>
+
+  <div class="gram-q">
+    <div class="gram-q-num">Q1</div>
+    <div class="gram-q-ko">나는 어제부터 아무것도 못 먹었어.</div>
+    <div class="gram-q-frame">I haven't eaten anything <span class="blank m"></span> yesterday.</div>
+    <div class="gram-q-hint">힌트: '어제'는 특정 날짜예요.</div>
+  </div>
+
+  <div class="gram-q">
+    <div class="gram-q-num">Q2</div>
+    <div class="gram-q-ko">나 지금 세 시간째 여기서 기다리고 있어.</div>
+    <div class="gram-q-frame">I've been waiting here <span class="blank m"></span> three hours.</div>
+    <div class="gram-q-hint">힌트: '세 시간'은 기간이에요.</div>
+  </div>
+
+  <div class="gram-q" style="border:1.5px solid var(--rose);background:var(--rose-l);">
+    <div class="gram-q-num" style="color:var(--rose);">Q3 ⚠️ 가장 헷갈리는 문제!</div>
+    <div class="gram-q-ko">우리 마지막으로 만난 지 5년 됐어.</div>
+    <div class="gram-q-frame">It's been <span class="blank m"></span> five years since we last met.</div>
+    <div class="gram-q-hint">힌트: "5년" 자체는 기간, "since we last met"은 따로 있어요. 빈칸엔 "5년"에 맞는 것!</div>
+  </div>
+
+  <div class="gram-q">
+    <div class="gram-q-num">Q4</div>
+    <div class="gram-q-ko">나는 아침부터 커피를 한 잔도 안 마셨어.</div>
+    <div class="gram-q-frame">I haven't had any coffee <span class="blank m"></span> this morning.</div>
+    <div class="gram-q-hint">힌트: 'this morning'은 특정 시점이에요.</div>
+  </div>
+
+  <div class="gram-q">
+    <div class="gram-q-num">Q5</div>
+    <div class="gram-q-ko">우리 한 달째 못 봤잖아!</div>
+    <div class="gram-q-frame">We haven't seen each other <span class="blank m"></span> a month!</div>
+    <div class="gram-q-hint">힌트: '한 달'은 기간이에요. "~째"는 영어로?</div>
+  </div>
+
+  <div style="margin-top:10px;padding:9px 12px;background:var(--mid);border:1px solid var(--line);font-size:11px;color:var(--stamp);line-height:1.7;">
+    <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--warm);">정답 확인 (스스로 채점)</span><br>
+    Q1: <span class="blank s"></span> &nbsp; Q2: <span class="blank s"></span> &nbsp; Q3: <span class="blank s"></span> &nbsp; Q4: <span class="blank s"></span> &nbsp; Q5: <span class="blank s"></span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PART 2 -->
+<div class="part-header">
+  <div class="part-num">2</div>
+  <div class="part-meta">
+    <div class="part-tag">SPEAKING · FLUENCY TRAINING</div>
+    <div class="part-title">내 이야기로 말해봐요 — 길고 자연스럽게</div>
+  </div>
+</div>
+
+<div style="font-size:12px;color:var(--stamp);margin-bottom:12px;line-height:1.7;background:var(--warm-p);border-left:3px solid var(--warm);padding:8px 12px;">
+  💡 한 문장으로 끝내지 말기! 아래 <strong>연결어</strong>와 <strong>감정 표현</strong>을 써서 3–4문장 이상 말해봐요. 모델 답변을 참고해서 나만의 이야기로 바꾸면 돼요.
+</div>
+
+<!-- Q1 -->
+<div class="speaking-q">
+  <div class="sq-head">
+    <div class="sq-num">Q1</div>
+    <div class="sq-q">누군가를 오래 기다려본 적 있어요? 몇 시부터였어요?</div>
+  </div>
+  <div class="sq-frame-wrap">
+    <div class="sq-frame-label">📌 핵심 표현 프레임</div>
+    <div class="sq-frame">
+      I've been [waiting / here / sitting there] since ___.<br>
+      I waited for ___ [minutes / hours] and they finally ___.<br>
+      By the time ___ came, I had already ___.
+    </div>
+  </div>
+  <div class="sq-fluency">
+    <div class="sq-fluency-label">💬 자연스럽게 말하는 방법 — 이 표현들을 섞어 써봐요!</div>
+    <div class="fluency-grid">
+      <div class="fluency-col">
+        <div class="fluency-col-title">시작하기</div>
+        <div class="fluency-chips">
+          <span class="chip">Oh, totally!</span>
+          <span class="chip">Actually, yes!</span>
+          <span class="chip">You know what...</span>
+          <span class="chip">This happened to me once.</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">연결하고 이어가기</div>
+        <div class="fluency-chips">
+          <span class="chip">And then...</span>
+          <span class="chip">At some point...</span>
+          <span class="chip">By the time...</span>
+          <span class="chip">Eventually...</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">감정 추가하기</div>
+        <div class="fluency-chips">
+          <span class="chip">I was so annoyed.</span>
+          <span class="chip">I couldn't believe it.</span>
+          <span class="chip">I was about to leave.</span>
+          <span class="chip">I was pretty frustrated.</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">결론 짓기</div>
+        <div class="fluency-chips">
+          <span class="chip">In the end...</span>
+          <span class="chip">Anyway...</span>
+          <span class="chip">Long story short...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sq-model">
+    <div class="sq-model-label">📖 모델 답변 (참고만 — 나만의 버전으로 바꿔요!)</div>
+    <div class="sq-model-text">
+      "Oh, totally! <strong>This happened to me once.</strong> I was waiting for a friend at a cafe. I was there <strong>since 6 o'clock</strong>, but she didn't show up. <strong>At some point</strong> I checked my phone, but there was no message. <strong>I was about to leave</strong> when she finally texted me. <strong>In the end</strong> she came at 7:30, so I waited <strong>for over an hour</strong>. <strong>I was so annoyed</strong>, but she apologized a lot so I let it go."
+    </div>
+  </div>
+  <div class="sq-answer">
+    <div class="sq-answer-label">✏️ 나의 답변 메모</div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="speaking-q">
+  <div class="sq-head">
+    <div class="sq-num">Q2</div>
+    <div class="sq-q">약속에 늦어본 적 있어요? 어떻게 설명했어요?</div>
+  </div>
+  <div class="sq-frame-wrap">
+    <div class="sq-frame-label">📌 핵심 표현 프레임</div>
+    <div class="sq-frame">
+      There was a problem with ___ [the bus / traffic / my phone...].<br>
+      I ran / rushed from ___ [the station / the office / home].<br>
+      I couldn't get a signal. / My phone died. / There was heavy traffic.
+    </div>
+  </div>
+  <div class="sq-fluency">
+    <div class="sq-fluency-label">💬 자연스럽게 말하는 방법</div>
+    <div class="fluency-grid">
+      <div class="fluency-col">
+        <div class="fluency-col-title">상황 설명하기</div>
+        <div class="fluency-chips">
+          <span class="chip">So basically...</span>
+          <span class="chip">What happened was...</span>
+          <span class="chip">I was supposed to...</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">핑계 표현</div>
+        <div class="fluency-chips">
+          <span class="chip">There was a problem with ~</span>
+          <span class="chip">I missed the bus.</span>
+          <span class="chip">I got stuck in traffic.</span>
+          <span class="chip">My phone was dead.</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">상대 반응 말하기</div>
+        <div class="fluency-chips">
+          <span class="chip">She/He was upset.</span>
+          <span class="chip">They said "You're always late!"</span>
+          <span class="chip">Luckily, they understood.</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">나의 감정</div>
+        <div class="fluency-chips">
+          <span class="chip">I felt so bad.</span>
+          <span class="chip">I was so stressed.</span>
+          <span class="chip">I ran as fast as I could.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sq-model">
+    <div class="sq-model-label">📖 모델 답변</div>
+    <div class="sq-model-text">"Yes! <strong>What happened was</strong>, I was supposed to meet a friend for lunch. But <strong>there was a problem with the subway</strong> — it stopped for like 20 minutes. <strong>I was so stressed</strong>. I tried to call her, but <strong>I couldn't get a signal</strong>. <strong>I ran</strong> from the station and finally got there. <strong>She was a bit upset</strong>, but when I explained, <strong>luckily she understood</strong>."</div>
+  </div>
+  <div class="sq-answer">
+    <div class="sq-answer-label">✏️ 나의 답변 메모</div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="speaking-q">
+  <div class="sq-head">
+    <div class="sq-num">Q3</div>
+    <div class="sq-q">말하다가 "아, 그 말 하지 말았어야 했는데" 싶은 적 있어요?</div>
+  </div>
+  <div class="sq-frame-wrap">
+    <div class="sq-frame-label">📌 핵심 표현 프레임</div>
+    <div class="sq-frame">
+      I didn't mean to ___ [hurt them / say that / bring it up].<br>
+      That came out wrong. (말이 이상하게 나왔어)<br>
+      I shouldn't have said that. (그 말 하지 말았어야 했는데)
+    </div>
+  </div>
+  <div class="sq-fluency">
+    <div class="sq-fluency-label">💬 자연스럽게 말하는 방법</div>
+    <div class="fluency-grid">
+      <div class="fluency-col">
+        <div class="fluency-col-title">상황 설명</div>
+        <div class="fluency-chips">
+          <span class="chip">I was just trying to...</span>
+          <span class="chip">I didn't realize that...</span>
+          <span class="chip">It just slipped out.</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">사과 / 해명</div>
+        <div class="fluency-chips">
+          <span class="chip">I didn't mean to ~</span>
+          <span class="chip">That came out wrong.</span>
+          <span class="chip">I feel so bad about it.</span>
+          <span class="chip">I apologized right away.</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">상대방 반응</div>
+        <div class="fluency-chips">
+          <span class="chip">They seemed hurt.</span>
+          <span class="chip">She/He looked surprised.</span>
+          <span class="chip">They forgave me eventually.</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">교훈</div>
+        <div class="fluency-chips">
+          <span class="chip">I've been more careful since.</span>
+          <span class="chip">I learned my lesson.</span>
+          <span class="chip">I think before I speak now.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sq-model">
+    <div class="sq-model-label">📖 모델 답변</div>
+    <div class="sq-model-text">"Hmm, yes actually. Once <strong>I was just trying to</strong> give my friend some honest feedback on her outfit, but... <strong>it just slipped out</strong> in the worst way. <strong>I didn't mean to</strong> hurt her feelings at all. <strong>That came out totally wrong</strong>. <strong>She seemed really hurt</strong>, so I apologized right away. <strong>I feel so bad</strong> when I think about it now. <strong>I've been more careful since</strong> then."</div>
+  </div>
+  <div class="sq-answer">
+    <div class="sq-answer-label">✏️ 나의 답변 메모</div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="speaking-q">
+  <div class="sq-head">
+    <div class="sq-num">Q4</div>
+    <div class="sq-q">퇴근 후 저녁을 어떻게 보내요? (The night is still young!)</div>
+  </div>
+  <div class="sq-frame-wrap">
+    <div class="sq-frame-label">📌 핵심 표현 프레임</div>
+    <div class="sq-frame">
+      After work, I usually / tend to ___.<br>
+      I've been into ___ lately, so I often ___.<br>
+      By the time I get home, it's usually around ___.
+    </div>
+  </div>
+  <div class="sq-fluency">
+    <div class="sq-fluency-label">💬 자연스럽게 말하는 방법</div>
+    <div class="fluency-grid">
+      <div class="fluency-col">
+        <div class="fluency-col-title">루틴 말하기</div>
+        <div class="fluency-chips">
+          <span class="chip">I tend to ~</span>
+          <span class="chip">I usually ~</span>
+          <span class="chip">Most days I ~</span>
+          <span class="chip">On weekdays I ~</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">요즘 하는 것</div>
+        <div class="fluency-chips">
+          <span class="chip">I've been into ~</span>
+          <span class="chip">Lately I've been ~</span>
+          <span class="chip">I got into ~ recently.</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">시간 표현</div>
+        <div class="fluency-chips">
+          <span class="chip">By the time I get home...</span>
+          <span class="chip">I'm usually home by ~</span>
+          <span class="chip">After that, I ~</span>
+        </div>
+      </div>
+      <div class="fluency-col">
+        <div class="fluency-col-title">밤에 추천!</div>
+        <div class="fluency-chips">
+          <span class="chip">The night is still young!</span>
+          <span class="chip">It's not that late!</span>
+          <span class="chip">Come on, let's ~</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sq-answer">
+    <div class="sq-answer-label">✏️ 나의 답변 메모</div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+    <div class="answer-line"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PART 3 -->
+<div class="part-header">
+  <div class="part-num">3</div>
+  <div class="part-meta">
+    <div class="part-tag">WRITING · PRACTICE</div>
+    <div class="part-title">나만의 문장 만들기 — 단계별 심화</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label">① 표현별 3단계 연습 — since / I didn't mean to / The only ~ is ~</div>
+
+  <!-- since -->
+  <div class="write-level">
+    <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--warm);margin-bottom:10px;letter-spacing:1px;">── since ──────────────────────────────</div>
+    <div class="write-level-badge lv1">LV1 빈칸 채우기</div>
+    <div class="write-prompt">나는 <span class="target">대학교 때부터</span> 커피를 마셔왔어.</div>
+    <div class="write-frame">I've been drinking coffee <span class="wblank l"></span> college.</div>
+    <div class="write-prompt" style="margin-top:10px;">나는 <span class="target">어젯밤부터</span> 머리가 아팠어.</div>
+    <div class="write-frame">I've had a headache <span class="wblank l"></span> last night.</div>
+
+    <div class="write-level-badge lv2" style="margin-top:12px;">LV2 한국어 보고 영어로</div>
+    <div class="write-prompt">나는 처음 만난 날부터 그 사람이 좋았어.</div>
+    <div class="write-hint">힌트: I've liked ___ since the day we ___.</div>
+    <div class="write-line"></div>
+
+    <div class="write-level-badge lv3" style="margin-top:12px;">LV3 자유 작문 — since를 써서 나만의 문장!</div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+  </div>
+
+  <!-- I didn't mean to -->
+  <div class="write-level">
+    <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--warm);margin-bottom:10px;letter-spacing:1px;">── I didn't mean to ~ ───────────────────</div>
+    <div class="write-level-badge lv1">LV1 빈칸 채우기</div>
+    <div class="write-prompt">나는 그의 감정을 상하게 하려고 한 게 아니었어.</div>
+    <div class="write-frame">I didn't mean to <span class="wblank l"></span> his feelings.</div>
+    <div class="write-prompt" style="margin-top:10px;">나는 그렇게 말하려고 한 게 아니었어.</div>
+    <div class="write-frame">I didn't mean to <span class="wblank l"></span> that.</div>
+
+    <div class="write-level-badge lv2" style="margin-top:12px;">LV2 한국어 보고 영어로</div>
+    <div class="write-prompt">나는 그 약속을 취소하려고 한 게 아니었어. 그냥 너무 바빴어.</div>
+    <div class="write-hint">힌트: I didn't mean to ___ the plan. I was just ___.</div>
+    <div class="write-line"></div>
+
+    <div class="write-level-badge lv3" style="margin-top:12px;">LV3 자유 작문</div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+  </div>
+
+  <!-- The only ~ is ~ -->
+  <div class="write-level">
+    <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--warm);margin-bottom:10px;letter-spacing:1px;">── The only ~ is ~ (강조 구조) ────────────</div>
+    <div class="write-level-badge lv1">LV1 빈칸 채우기</div>
+    <div class="write-prompt">내가 원하는 것은 오직 커피 한 잔뿐이야.</div>
+    <div class="write-frame">The only <span class="wblank m"></span> I want is <span class="wblank l"></span>.</div>
+    <div class="write-prompt" style="margin-top:10px;">내가 필요한 것은 오직 휴식뿐이야.</div>
+    <div class="write-frame">The only <span class="wblank m"></span> I need is <span class="wblank l"></span>.</div>
+
+    <div class="write-level-badge lv2" style="margin-top:12px;">LV2 한국어 보고 영어로</div>
+    <div class="write-prompt">내가 걱정하는 사람은 오직 너뿐이야.</div>
+    <div class="write-hint">힌트: The only person I ___ about is ___.</div>
+    <div class="write-line"></div>
+
+    <div class="write-level-badge lv3" style="margin-top:12px;">LV3 자유 작문</div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label">② 미니 스토리 만들기 — 오늘 씬처럼 상황 써봐요</div>
+  <div class="story-box">
+    <div class="story-box-label">📖 상황 설명</div>
+    <div class="story-situation">
+      친구와 카페에서 만나기로 했는데, 약속에 늦었어요. 버스에 문제가 있었고, 전화도 안 됐어요. 결국 뛰어서 도착했고, 친구는 많이 기다렸어요. 이 상황을 <strong>4–5문장</strong>으로 영어로 써봐요.<br>
+      <span style="color:var(--warm);">꼭 써야 할 표현: There was a problem with ~ · I ran · I've been here since · I'm so sorry</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div class="write-line"></div>
+      <div class="write-line"></div>
+      <div class="write-line"></div>
+      <div class="write-line"></div>
+      <div class="write-line"></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label">③ 한→영 변환 — 통째로 써봐요</div>
+  <div class="trans-item">
+    <div class="trans-ko">① 나는 중학교 때부터 영어를 좋아했어. 그래서 요즘도 계속 공부하고 있어.</div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+  </div>
+  <div class="trans-item">
+    <div class="trans-ko">② 그럴 의도가 아니었어. 그냥 솔직하게 말하려고 했는데 말이 이상하게 나온 것 같아. 미안해.</div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+  </div>
+  <div class="trans-item">
+    <div class="trans-ko">③ 내가 지금 관심 있는 건 오직 영어뿐이야. 이제 거의 6개월째 공부하고 있어!</div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PART 4 -->
+<div class="part-header">
+  <div class="part-num">4</div>
+  <div class="part-meta">
+    <div class="part-tag">HOMEWORK · DAILY REPETITION</div>
+    <div class="part-title">매일 학습 계획 — 반복으로 완전 내 것으로!</div>
+  </div>
+</div>
+
+<div class="hw-legend">
+  <div class="hw-legend-item"><span style="font-family:'Space Mono',monospace;font-size:11px;">🔁</span> 매일 반복 (핵심 루틴)</div>
+  <div class="hw-legend-item"><span style="font-family:'Space Mono',monospace;font-size:11px;">★</span> 오늘의 새 과제</div>
+</div>
+
+<div style="font-size:12px;color:var(--stamp);margin-bottom:10px;line-height:1.7;">같은 내용을 매일 조금씩 다른 방식으로 반복해요. 매일 쌓이는 느낌이 있을 거예요!</div>
+
+<div class="hw-calendar">
+  <div class="hw-cal-header">DAILY HOMEWORK — 5/29 (목) ~ 6/2 (월) <span>매일 20~30분</span></div>
+
+  <div class="hw-day-row">
+    <div class="hw-date-cell">목<br>5/29<div class="time-est">25분</div></div>
+    <div class="hw-content-cell">
+      <div class="hw-core">AEF 252 전체 3회 듣기 (소리 내서 따라!)
+        <div class="rep-track">
+          <span class="rep-label">듣기</span>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+        </div>
+      </div>
+      <div class="hw-new">핵심 표현 8개 — 가리고 한국어→영어 쓰기</div>
+      <div class="hw-sub">핵심 표현 표를 가리고, 한국어만 보고 영어로 써봐요. 몇 개 맞혔는지 체크!</div>
+    </div>
+    <div class="hw-check-cell"><div class="check-box" onclick="this.classList.toggle('done');this.textContent=this.classList.contains('done')?'✓':'';">  </div></div>
+  </div>
+
+  <div class="hw-day-row">
+    <div class="hw-date-cell">금<br>5/30<div class="time-est">25분</div></div>
+    <div class="hw-content-cell">
+      <div class="hw-core">AEF 252 2회 듣기 + Rob 파트 쉐도잉
+        <div class="rep-track">
+          <span class="rep-label">듣기</span>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <span class="rep-label" style="margin-left:8px;">쉐도잉</span>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+        </div>
+      </div>
+      <div class="hw-new">Part 3 미니 스토리 + 한→영 변환 완성</div>
+      <div class="hw-sub">소리 내서 쓰고 말해봐요. 핵심 표현 8개도 다시 한번 소리 내어 읽기!</div>
+    </div>
+    <div class="hw-check-cell"><div class="check-box" onclick="this.classList.toggle('done');this.textContent=this.classList.contains('done')?'✓':'';">  </div></div>
+  </div>
+
+  <div class="hw-day-row">
+    <div class="hw-date-cell">토<br>5/31<div class="time-est">30분</div></div>
+    <div class="hw-content-cell">
+      <div class="hw-core">AEF 252 1회 듣기 + 핵심 표현 3개 소리 내어 5번씩
+        <div class="rep-track">
+          <span class="rep-label">듣기</span>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <span class="rep-label" style="margin-left:8px;">표현①×5</span>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+        </div>
+        <div class="rep-track">
+          <span class="rep-label">표현②×5</span>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <span class="rep-label" style="margin-left:8px;">표현③×5</span>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+        </div>
+      </div>
+      <div class="hw-new">Part 5 — AEF 261 빈칸 채우기 도전! → <a href="https://www.listeninenglish.com/aef-261.php" target="_blank" style="color:var(--blue);font-family:'Space Mono',monospace;font-size:10px;">listeninenglish.com/aef-261.php</a></div>
+      <div class="hw-sub">AEF 261은 답 보지 말고 먼저 도전. 모르면 ❓ 표시만 하고 넘어가기!</div>
+    </div>
+    <div class="hw-check-cell"><div class="check-box" onclick="this.classList.toggle('done');this.textContent=this.classList.contains('done')?'✓':'';">  </div></div>
+  </div>
+
+  <div class="hw-day-row">
+    <div class="hw-date-cell">일<br>6/1<div class="time-est">25분</div></div>
+    <div class="hw-content-cell">
+      <div class="hw-core">AEF 252 — Rob 파트 안 보고 말해보기 (암기 테스트)
+        <div class="rep-track">
+          <span class="rep-label">도전 횟수</span>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+        </div>
+      </div>
+      <div class="hw-new">AEF 261 스크립트 5회 소리 내어 읽기 → <a href="https://www.listeninenglish.com/aef-261.php" target="_blank" style="color:var(--blue);font-family:'Space Mono',monospace;font-size:10px;">listeninenglish.com/aef-261.php</a>
+        <div class="rep-track">
+          <span class="rep-label">읽기</span>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+        </div>
+      </div>
+      <div class="hw-sub">Rob 파트 완벽하게 못 외워도 OK! 최대한 해보는 게 목표. 막히면 보고 이어가기.</div>
+    </div>
+    <div class="hw-check-cell"><div class="check-box" onclick="this.classList.toggle('done');this.textContent=this.classList.contains('done')?'✓':'';">  </div></div>
+  </div>
+
+  <div class="hw-day-row">
+    <div class="hw-date-cell">월<br>6/2<div class="time-est">20분</div></div>
+    <div class="hw-content-cell">
+      <div class="hw-core">AEF 252 한 번 더 듣기 + since/for 문법 5문제 다시 풀기 (가리고!)
+        <div class="rep-track">
+          <span class="rep-label">듣기</span>
+          <div class="rep-box" onclick="toggleRep(this)"></div>
+        </div>
+      </div>
+      <div class="hw-new">Part 6 셀프체크 완성 후 수업 오기</div>
+      <div class="hw-sub">문법 문제는 워크시트 가리고 다시 풀어봐요. 점수가 올랐는지 확인!</div>
+    </div>
+    <div class="hw-check-cell"><div class="check-box" onclick="this.classList.toggle('done');this.textContent=this.classList.contains('done')?'✓':'';">  </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PART 5 (kept as-is) -->
+<div class="part-header">
+  <div class="part-num">5</div>
+  <div class="part-meta">
+    <div class="part-tag">PREVIEW · DICTATION</div>
+    <div class="part-title">AEF 261 예습 — 듣고 빈칸 채우기</div>
+  </div>
+</div>
+
+<div class="dictation-card">
+  <div class="dict-note">
+    🎧 <strong><a href="https://www.listeninenglish.com/aef-261.php" target="_blank" style="color:var(--blue);text-decoration:none;">listeninenglish.com/aef-261.php</a></strong> 를 틀어놓고, 들리는 대로 채워봐요.<br>
+    모르겠으면 <strong>❓</strong>라고 쓰고 넘어가세요. 다 채우는 게 목표가 아니라, 들으면서 도전하는 게 목표예요!<br>
+    ★ 먼저 혼자 해보고, 나중에 스크립트로 확인하기 (답 바로 보지 않기)
+  </div>
+  <div class="card-label">AEF 261 SCRIPT — DICTATION (최대 빈칸)</div>
+  <div class="dict-scene">
+    <div class="dict-line"><span class="dict-sp">Jenny</span><span class="dict-text">I <span class="blank s"></span> <span class="blank m"></span> it. Your <span class="blank m"></span> here is <span class="blank m"></span> <span class="blank m"></span>. It's <span class="blank m"></span> so <span class="blank m"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Rob</span><span class="dict-text">I <span class="blank m"></span>. I've <span class="blank m"></span> a <span class="blank m"></span> <span class="blank m"></span>, Jenny.</span></div>
+    <div class="dict-line"><span class="dict-sp">Jenny</span><span class="dict-text">Me <span class="blank s"></span>. It's <span class="blank m"></span> really <span class="blank m"></span>. But...</span></div>
+    <div class="dict-line"><span class="dict-sp">Rob</span><span class="dict-text">But <span class="blank m"></span>?</span></div>
+    <div class="dict-line"><span class="dict-sp">Jenny</span><span class="dict-text">It <span class="blank s"></span> be the <span class="blank m"></span> when you're in <span class="blank m"></span> and I'm <span class="blank m"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Rob</span><span class="dict-text">But we'll <span class="blank s"></span> be in <span class="blank m"></span>. You can <span class="blank m"></span> me in <span class="blank m"></span>, and I can <span class="blank m"></span> <span class="blank s"></span> here to <span class="blank m"></span> you.</span></div>
+    <div class="dict-line"><span class="dict-sp">Jenny</span><span class="dict-text">It <span class="blank s"></span> <span class="blank s"></span> be the <span class="blank m"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Rob</span><span class="dict-text">No no it <span class="blank s"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Jenny</span><span class="dict-text">Maybe I could <span class="blank m"></span> <span class="blank s"></span> to <span class="blank m"></span> with <span class="blank s"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Rob</span><span class="dict-text">You <span class="blank s"></span> do that <span class="blank m"></span>. You've <span class="blank s"></span> <span class="blank s"></span> this <span class="blank m"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Jenny</span><span class="dict-text">That's <span class="blank m"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Rob</span><span class="dict-text">Well, we <span class="blank s"></span> have <span class="blank s"></span> time <span class="blank m"></span>. We're <span class="blank m"></span> <span class="blank s"></span> for <span class="blank m"></span> <span class="blank m"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Jenny</span><span class="dict-text">Yes, and I'm going to <span class="blank m"></span> you <span class="blank m"></span> really <span class="blank m"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Rob</span><span class="dict-text">Look at the <span class="blank m"></span>. I have to <span class="blank s"></span> now. It's my <span class="blank m"></span> <span class="blank m"></span> in <span class="blank m"></span>. I don't <span class="blank m"></span> to be <span class="blank m"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Jenny</span><span class="dict-text"><span class="blank m"></span>. See you <span class="blank m"></span> then.</span></div>
+    <div class="dict-line"><span class="dict-sp">Rob</span><span class="dict-text"><span class="blank s"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Barbara</span><span class="dict-text">Jenny, is <span class="blank m"></span> here?</span></div>
+    <div class="dict-line"><span class="dict-sp">Jenny</span><span class="dict-text">Oh, you just <span class="blank m"></span> him, <span class="blank m"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Barbara</span><span class="dict-text">I really <span class="blank s"></span> to <span class="blank m"></span> to him. I'll <span class="blank s"></span> him in his <span class="blank m"></span> <span class="blank m"></span>.</span></div>
+    <div class="dict-line"><span class="dict-sp">Barbara</span><span class="dict-text">Hello <span class="blank m"></span>. It's <span class="blank m"></span>. Can you <span class="blank m"></span> me a <span class="blank m"></span>? There's <span class="blank m"></span> I'd like to <span class="blank m"></span> <span class="blank m"></span> with you.</span></div>
+  </div>
+  <div style="margin-top:14px;padding:9px 12px;background:var(--warm-p);border:1px solid var(--warm-l);font-size:12px;line-height:1.8;color:var(--stamp);">
+    <strong style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--warm);">AEF 261 PREVIEW</strong> — 롭의 뉴욕 한 달이 거의 끝나가요! 제니와 롭은 헤어지기 싫어하고, 제니는 런던으로 같이 갈까 고민해요. 바바라(Barbara)가 롭에게 중요한 연락을 해요 — 무슨 내용일까요? 👀
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PART 6 -->
+<div class="part-header">
+  <div class="part-num">6</div>
+  <div class="part-meta">
+    <div class="part-tag">SELF CHECK · 수업 전 완성</div>
+    <div class="part-title">셀프 점검 — 수업 오기 전에 체크!</div>
+  </div>
+</div>
+
+<div class="self-check">
+  <div class="sc-header">SELF CHECK — 별점으로 솔직하게 평가해봐요 (★★★ 이상 목표!)</div>
+  <div class="sc-row">
+    <div class="sc-content">
+      <div class="item-title">Part 1 — 스크립트 없이 핵심 라인 절반 이상 채웠어요</div>
+      <div class="item-sub">몇 개 맞혔어요? 전보다 나아졌나요?</div>
+    </div>
+    <div class="sc-rate">
+      <div class="rate-label">암기</div>
+      <div class="rate-stars"><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button></div>
+    </div>
+  </div>
+  <div class="sc-row">
+    <div class="sc-content">
+      <div class="item-title">since vs for 문법 5문제 — 이유까지 설명할 수 있어요</div>
+      <div class="item-sub">특히 Q3 (It's been ___ five years since ~) 기억나요?</div>
+    </div>
+    <div class="sc-rate">
+      <div class="rate-label">이해</div>
+      <div class="rate-stars"><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button></div>
+    </div>
+  </div>
+  <div class="sc-row">
+    <div class="sc-content">
+      <div class="item-title">핵심 표현 8개 — 영어 표현과 뜻을 말할 수 있어요</div>
+      <div class="item-sub">특히 "Forget it!" / "That's not the point." / "The night is still young."</div>
+    </div>
+    <div class="sc-rate">
+      <div class="rate-label">암기</div>
+      <div class="rate-stars"><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button></div>
+    </div>
+  </div>
+  <div class="sc-row">
+    <div class="sc-content">
+      <div class="item-title">매일 숙제 — AEF 252를 5일 연속 1번 이상 들었어요</div>
+      <div class="item-sub">목☐ 금☐ 토☐ 일☐ 월☐ — 몇 일 완료했어요?</div>
+    </div>
+    <div class="sc-rate">
+      <div class="rate-label">완료</div>
+      <div class="rate-stars"><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button></div>
+    </div>
+  </div>
+  <div class="sc-row">
+    <div class="sc-content">
+      <div class="item-title">Rob 파트 — 안 보고 말해보기를 시도했어요</div>
+      <div class="item-sub">완벽하지 않아도 OK. 일단 해봤으면 ★★★★!</div>
+    </div>
+    <div class="sc-rate">
+      <div class="rate-label">도전</div>
+      <div class="rate-stars"><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button></div>
+    </div>
+  </div>
+  <div class="sc-row">
+    <div class="sc-content">
+      <div class="item-title">AEF 261 빈칸 채우기 — 일단 도전해봤어요</div>
+      <div class="item-sub">다 못 채워도 괜찮아요! 도전 자체가 ★★★</div>
+    </div>
+    <div class="sc-rate">
+      <div class="rate-label">예습</div>
+      <div class="rate-stars"><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button><button class="star-btn" onclick="rateStar(this)">★</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="reflect-box">
+  <div class="reflect-label">📝 수업 전 메모 — 꼭 확인하고 싶은 것</div>
+  <div class="reflect-q">이번 주 가장 어려웠던 표현 / 헷갈렸던 문법:</div>
+  <div class="reflect-line"></div>
+  <div class="reflect-q">AEF 261 빈칸 중 아예 안 들렸던 부분:</div>
+  <div class="reflect-line"></div>
+  <div class="reflect-q">기타 궁금한 것 (뭐든!):</div>
+  <div class="reflect-line"></div>
+</div>
+
+<div style="margin-top:20px;">
+  <div class="takeaway">
+    <div class="tk-label">오늘 가져갈 핵심 3가지 — 수업 끝나고 직접 써봐요</div>
+    <div class="tk-item"><span class="tk-num">①</span><input class="tk-input" type="text" placeholder="since 표현 — 내가 만든 문장"></div>
+    <div class="tk-item"><span class="tk-num">②</span><input class="tk-input" type="text" placeholder="I didn't mean to ~ — 언제 쓸 수 있나?"></div>
+    <div class="tk-item"><span class="tk-num">③</span><input class="tk-input" type="text" placeholder="오늘 가장 기억에 남는 표현 하나 + 예문"></div>
+  </div>
+</div>
+
+<div style="margin-top:36px;text-align:center;font-family:'Space Mono',monospace;font-size:10px;color:var(--line);letter-spacing:1px;">
+  2026.05.28 · STUDY WITH SEIJIN · 은혜님 화이팅! ☕
+</div>
+</div>
+
+<script>
+function rateStar(btn){
+  const group=btn.closest('.rate-stars');
+  const btns=Array.from(group.querySelectorAll('.star-btn'));
+  const idx=btns.indexOf(btn);
+  btns.forEach((b,i)=>b.classList.toggle('on',i<=idx));
+}
+function toggleRep(el){
+  el.classList.toggle('done');
+  el.textContent=el.classList.contains('done')?'✓':'';
+}
+</script>
+</body>
+</html>
